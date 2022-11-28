@@ -1,18 +1,23 @@
-name: Cypress Tests with installation job
-
+name: subfolder
 on: [push]
-
 jobs:
-  install:
+  cypress-run:
     runs-on: ubuntu-latest
-    container: cypress/browsers:node12.18.3-chrome87-ff82
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
+      # first, install dependencies and Cypress
+      # from the root folder using the lock file
       - name: Cypress install
-        uses: cypress-io/github-action@v4 # use the explicit version number
+        uses: cypress-io/github-action@v2
         with:
-          # Disable running of tests within install job
           runTests: false
-          build: yarn build
+
+      # now run the tests from the subfolder
+      - name: Cypress run
+        uses: cypress-io/github-action@v2
+        with:
+          install: false
+          working-directory: packages/e2e
+          start: yarn start-server
