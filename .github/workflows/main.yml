@@ -19,5 +19,5 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           install: false
-          working-directory: packages/e2e
+          # working-directory: packages/e2e
           start: yarn start-server
